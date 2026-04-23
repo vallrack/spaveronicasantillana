@@ -103,9 +103,11 @@ export default function Home() {
             
             <p style={{ 
               fontSize: isMobile ? '0.9rem' : '1.1rem', 
+              marginTop: '2rem',
+              marginLeft: 'auto',
+              marginRight: 'auto',
               marginBottom: isMobile ? '2.5rem' : '4rem', 
               maxWidth: '700px', 
-              margin: '2rem auto 4rem',
               color: 'var(--text-muted)',
               lineHeight: 1.6
             }}>
