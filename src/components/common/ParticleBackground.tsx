@@ -30,6 +30,10 @@ export default function ParticleBackground() {
             enable: true,
             mode: "grab",
           },
+          onClick: {
+            enable: true,
+            mode: "push",
+          },
         },
         modes: {
           grab: {

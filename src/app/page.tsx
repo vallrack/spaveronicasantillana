@@ -50,27 +50,25 @@ export default function Home() {
         overflow: 'hidden',
         background: 'radial-gradient(circle at center, #ffffff 0%, #f7f3e8 100%)'
       }}>
-        {!isMobile && <ParticleBackground />}
+        <ParticleBackground />
         
-        {!isMobile && (
-          <motion.div 
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '600px',
-              height: '600px',
-              borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, transparent 70%)',
-              pointerEvents: 'none',
-              zIndex: 1,
-              x: dx,
-              y: dy,
-              translateX: '-50%',
-              translateY: '-50%',
-            }}
-          />
-        )}
+        <motion.div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: isMobile ? '300px' : '600px', // Smaller glow on mobile
+            height: isMobile ? '300px' : '600px',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, transparent 70%)',
+            pointerEvents: 'none',
+            zIndex: 1,
+            x: dx,
+            y: dy,
+            translateX: '-50%',
+            translateY: '-50%',
+          }}
+        />
 
         <div className="container" style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
           <motion.div
