@@ -3,9 +3,11 @@
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
+import { useAuth } from '@/context/AuthContext';
+import { User, LogOut } from 'lucide-react';
 
 export default function Header() {
-  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+  const { user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const links = [
@@ -41,31 +43,52 @@ export default function Header() {
         </div>
         
         {/* Desktop Nav */}
-        <nav className="desktop-nav" style={{ position: 'relative' }}>
+        <nav className="desktop-nav">
           <ul style={{ display: 'flex', gap: '3rem', listStyle: 'none', margin: 0, padding: 0, alignItems: 'center' }}>
             {links.map((link) => (
-              <li key={link.name} onMouseEnter={() => setHoveredLink(link.name)} onMouseLeave={() => setHoveredLink(null)}>
+              <li key={link.name}>
                 <Link href={link.href} style={{
                   fontWeight: 700,
                   color: 'var(--text-dark)',
                   fontSize: '0.7rem',
                   textTransform: 'uppercase',
                   letterSpacing: '0.2em',
-                  position: 'relative',
-                  transition: 'color 0.3s ease'
+                  textDecoration: 'none'
                 }}>
                   {link.name}
                 </Link>
               </li>
             ))}
-            <li>
-              <Link href="/register" className="gold-button" style={{ 
-                padding: '0.8rem 1.5rem', 
-                fontSize: '0.65rem'
-              }}>
-                Reserva Elite
-              </Link>
-            </li>
+            {user ? (
+              <li style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                <Link href="/dashboard" style={{
+                  fontWeight: 700,
+                  color: 'var(--primary-gold)',
+                  fontSize: '0.7rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.2em',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  <User size={14} /> Panel
+                </Link>
+                <button onClick={() => logout()} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#999' }}>
+                  <LogOut size={16} />
+                </button>
+              </li>
+            ) : (
+              <li>
+                <Link href="/register" className="gold-button" style={{ 
+                  padding: '0.8rem 1.5rem', 
+                  fontSize: '0.65rem',
+                  textDecoration: 'none'
+                }}>
+                  ACCEDER
+                </Link>
+              </li>
+            )}
           </ul>
         </nav>
 
@@ -119,9 +142,20 @@ export default function Header() {
                 </li>
               ))}
               <li style={{ marginTop: '2rem' }}>
-                <Link href="/register" onClick={() => setIsMobileMenuOpen(false)} className="gold-button" style={{ width: '100%', display: 'block', textAlign: 'center' }}>
-                  Reserva Elite
-                </Link>
+                {user ? (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)} style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--primary-gold)', textDecoration: 'none' }}>
+                      Mi Panel
+                    </Link>
+                    <button onClick={() => { logout(); setIsMobileMenuOpen(false); }} style={{ background: 'none', border: 'none', textAlign: 'left', color: '#999', fontSize: '1rem', cursor: 'pointer' }}>
+                      Cerrar Sesión
+                    </button>
+                  </div>
+                ) : (
+                  <Link href="/register" onClick={() => setIsMobileMenuOpen(false)} className="gold-button" style={{ width: '100%', display: 'block', textAlign: 'center', textDecoration: 'none' }}>
+                    ACCEDER
+                  </Link>
+                )}
               </li>
             </ul>
           </motion.div>

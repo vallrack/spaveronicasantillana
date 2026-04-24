@@ -7,11 +7,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import Modal from '@/components/common/Modal';
+import ConsentForm from '@/components/dashboard/ConsentForm';
 
 export default function Home() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [isConsentOpen, setIsConsentOpen] = useState(false);
 
   const springConfig = { damping: 25, stiffness: 150 };
   const dx = useSpring(mouseX, springConfig);
@@ -114,10 +117,14 @@ export default function Home() {
             
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexDirection: isMobile ? 'column' : 'row' }}>
               <Link href="/register" className="gold-button">Iniciar Experiencia</Link>
-              <Link href="#rituales" className="outline-button">Ver Catálogo</Link>
+              <button onClick={() => setIsConsentOpen(true)} className="outline-button">Firmar Consentimiento</button>
             </div>
           </motion.div>
         </div>
+
+        <Modal isOpen={isConsentOpen} onClose={() => setIsConsentOpen(false)}>
+          <ConsentForm onComplete={() => setIsConsentOpen(false)} />
+        </Modal>
       </section>
 
       {/* Philosophy Section */}
