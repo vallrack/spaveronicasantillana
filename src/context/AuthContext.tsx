@@ -97,11 +97,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     provider.setCustomParameters({ prompt: 'select_account' });
     
     try {
-      // Detect if it's a mobile device or a tablet
+      // Detect if it's a mobile device OR if the window width is small
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const isSmallScreen = window.innerWidth < 768;
       
-      if (isMobile) {
-        console.log("Mobile detected, using signInWithRedirect");
+      if (isMobile || isSmallScreen) {
+        console.log("Small screen or mobile detected, using signInWithRedirect");
         await signInWithRedirect(auth, provider);
       } else {
         console.log("Desktop detected, using signInWithPopup");
