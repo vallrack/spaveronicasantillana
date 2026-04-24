@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import { Upload, Eraser, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -12,8 +12,29 @@ interface SignaturePadProps {
 
 export default function SignaturePad({ onSave, onClear }: SignaturePadProps) {
   const sigCanvas = useRef<SignatureCanvas>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [hasSignature, setHasSignature] = useState(false);
   const [uploadMode, setUploadMode] = useState(false);
+  const [canvasSize, setCanvasSize] = useState({ width: 600, height: 220 });
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const updateSize = () => {
+      if (containerRef.current) {
+        setCanvasSize({
+          width: containerRef.current.offsetWidth,
+          height: containerRef.current.offsetHeight
+        });
+      }
+    };
+
+    const observer = new ResizeObserver(updateSize);
+    observer.observe(containerRef.current);
+    updateSize();
+
+    return () => observer.disconnect();
+  }, []);
 
   const clear = () => {
     sigCanvas.current?.clear();
@@ -64,23 +85,28 @@ export default function SignaturePad({ onSave, onClear }: SignaturePadProps) {
       </div>
 
       {!uploadMode ? (
-        <div style={{ 
-          border: '1px solid rgba(212, 175, 55, 0.2)', 
-          backgroundColor: '#fff',
-          position: 'relative',
-          height: '220px',
-          boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)'
-        }}>
+        <div 
+          ref={containerRef}
+          style={{ 
+            border: '1px solid rgba(212, 175, 55, 0.2)', 
+            backgroundColor: '#fff',
+            position: 'relative',
+            height: 'clamp(150px, 30vh, 220px)',
+            boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)',
+            overflow: 'hidden'
+          }}
+        >
           <div style={{ 
             position: 'absolute', 
             top: '50%', 
             left: '50%', 
             transform: 'translate(-50%, -50%)', 
-            fontSize: '5rem', 
-            color: 'rgba(212, 175, 55, 0.03)', 
+            fontSize: 'clamp(3rem, 10vw, 5rem)', 
+            color: 'rgba(212, 175, 55, 0.05)', 
             pointerEvents: 'none',
             fontFamily: 'var(--font-serif)',
-            fontStyle: 'italic'
+            fontStyle: 'italic',
+            whiteSpace: 'nowrap'
           }}>
             Firma
           </div>
@@ -88,8 +114,8 @@ export default function SignaturePad({ onSave, onClear }: SignaturePadProps) {
             ref={sigCanvas}
             penColor="#1A1A1A"
             canvasProps={{
-              width: 600,
-              height: 220,
+              width: canvasSize.width,
+              height: canvasSize.height,
               className: 'signature-canvas',
               style: { width: '100%', height: '100%', position: 'relative', zIndex: 1 }
             }}
@@ -98,7 +124,7 @@ export default function SignaturePad({ onSave, onClear }: SignaturePadProps) {
               save();
             }}
           />
-          <div style={{ position: 'absolute', bottom: '10px', right: '10px', display: 'flex', gap: '0.5rem' }}>
+          <div style={{ position: 'absolute', bottom: '10px', right: '10px', display: 'flex', gap: '0.5rem', zIndex: 10 }}>
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}

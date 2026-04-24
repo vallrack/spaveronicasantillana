@@ -56,13 +56,14 @@ export default function ConsentForm({ onComplete }: { onComplete?: () => void })
       border: '1px solid rgba(212, 175, 55, 0.1)', 
       position: 'relative', 
       maxWidth: '900px', 
-      margin: '0 auto',
-      padding: '4rem',
+      width: '95%',
+      margin: '2rem auto',
+      padding: 'clamp(1.5rem, 5vw, 4rem)',
       backgroundColor: 'rgba(255, 255, 255, 0.95)',
       boxShadow: 'var(--shadow-soft)'
     }}>
       {/* ... (rest of the header and content remains same) ... */}
-      <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+      <div style={{ textAlign: 'center', marginBottom: 'clamp(2rem, 5vw, 4rem)' }}>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -71,24 +72,23 @@ export default function ConsentForm({ onComplete }: { onComplete?: () => void })
           <ShieldCheck size={20} />
           <span style={{ textTransform: 'uppercase', letterSpacing: '0.3em', fontSize: '0.7rem', fontWeight: 700 }}>Documento Oficial</span>
         </motion.div>
-        <h2 style={{ fontSize: '3rem', marginBottom: '1rem', lineHeight: 1.1 }}>Consentimiento <span className="premium-gold-text">Informado</span></h2>
+        <h2 style={{ fontSize: 'clamp(1.8rem, 5vw, 3rem)', marginBottom: '1rem', lineHeight: 1.1 }}>Consentimiento <span className="premium-gold-text">Informado</span></h2>
         <div style={{ width: '60px', height: '2px', backgroundColor: 'var(--primary-gold)', margin: '0 auto 1.5rem' }}></div>
-        <p style={{ fontSize: '1rem', color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto' }}>
+        <p style={{ fontSize: 'clamp(0.9rem, 2vw, 1rem)', color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto' }}>
           Este documento garantiza la excelencia y seguridad en su ritual de bienestar.
         </p>
       </div>
       
       <div style={{ 
-        height: '350px', 
+        height: 'clamp(250px, 40vh, 350px)', 
         overflowY: 'auto', 
-        paddingRight: '1.5rem',
         marginBottom: '3rem',
         fontSize: '0.95rem',
         color: 'var(--text-muted)',
         lineHeight: 1.8,
         textAlign: 'justify',
         border: '1px solid #f0f0f0',
-        padding: '2.5rem',
+        padding: 'clamp(1rem, 3vw, 2.5rem)',
         backgroundColor: '#fff',
         borderRadius: '0',
         boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.02)'
@@ -128,11 +128,11 @@ export default function ConsentForm({ onComplete }: { onComplete?: () => void })
             onSubmit={handleSign}
             style={{ 
               border: '1px solid #f0f0f0', 
-              padding: '3rem',
+              padding: 'clamp(1.5rem, 5vw, 3rem)',
               backgroundColor: 'var(--accent-white)'
             }}
           >
-            <div style={{ display: 'grid', gridTemplateColumns: user ? '1fr' : '1fr 1fr', gap: '2rem', marginBottom: '2.5rem' }}>
+            <div className="responsive-form-grid">
               <div>
                 <label htmlFor="signature-name" style={{ 
                   display: 'block', 
@@ -157,7 +157,7 @@ export default function ConsentForm({ onComplete }: { onComplete?: () => void })
                     borderBottom: '1px solid var(--primary-gold)',
                     background: 'transparent',
                     fontFamily: 'var(--font-serif)',
-                    fontSize: '1.2rem',
+                    fontSize: 'clamp(1rem, 3vw, 1.2rem)',
                     fontStyle: 'italic',
                     outline: 'none',
                     color: 'var(--text-dark)'
@@ -189,7 +189,7 @@ export default function ConsentForm({ onComplete }: { onComplete?: () => void })
                       borderBottom: '1px solid var(--primary-gold)',
                       background: 'transparent',
                       fontFamily: 'var(--font-serif)',
-                      fontSize: '1.2rem',
+                      fontSize: 'clamp(1rem, 3vw, 1.2rem)',
                       fontStyle: 'italic',
                       outline: 'none',
                       color: 'var(--text-dark)'
@@ -225,7 +225,7 @@ export default function ConsentForm({ onComplete }: { onComplete?: () => void })
             animate={{ opacity: 1, scale: 1 }}
             style={{ 
               textAlign: 'center', 
-              padding: '5rem 2rem', 
+              padding: 'clamp(2rem, 8vw, 5rem) 1rem', 
               backgroundColor: 'var(--text-dark)', 
               color: 'white',
               borderRadius: '0',
@@ -236,29 +236,30 @@ export default function ConsentForm({ onComplete }: { onComplete?: () => void })
               initial={{ rotate: -10, opacity: 0, scale: 0.5 }}
               animate={{ rotate: 0, opacity: 1, scale: 1 }}
               transition={{ delay: 0.3, type: 'spring' }}
-              style={{ fontSize: '5rem', marginBottom: '2rem' }}
+              style={{ fontSize: 'clamp(3rem, 10vw, 5rem)', marginBottom: '1.5rem' }}
             >
               ⚜️
             </motion.div>
-            <h3 style={{ color: 'var(--primary-gold)', fontSize: '2.2rem', marginBottom: '1.5rem', letterSpacing: '0.1em' }}>CERTIFICADO DE FIRMA</h3>
-            <div style={{ width: '40px', height: '1px', backgroundColor: 'var(--primary-gold)', margin: '0 auto 2.5rem' }}></div>
+            <h3 style={{ color: 'var(--primary-gold)', fontSize: 'clamp(1.5rem, 5vw, 2.2rem)', marginBottom: '1rem', letterSpacing: '0.1em' }}>CERTIFICADO DE FIRMA</h3>
+            <div style={{ width: '40px', height: '1px', backgroundColor: 'var(--primary-gold)', margin: '0 auto 2rem' }}></div>
             <p style={{ 
               fontFamily: 'var(--font-serif)', 
-              fontSize: '2.8rem', 
+              fontSize: 'clamp(1.8rem, 6vw, 2.8rem)', 
               fontStyle: 'italic',
               background: 'linear-gradient(to right, #BF953F, #FCF6BA, #AA771C)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              marginBottom: '2rem'
+              marginBottom: '1.5rem',
+              lineHeight: 1.2
             }}>
               {signatureName}
             </p>
             {signatureData && (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
-                <img src={signatureData} alt="Firma" style={{ height: '100px', filter: 'invert(1) grayscale(1) brightness(1.5)', marginBottom: '2rem' }} />
+                <img src={signatureData} alt="Firma" style={{ height: 'clamp(60px, 15vw, 100px)', filter: 'invert(1) grayscale(1) brightness(1.5)', marginBottom: '1.5rem' }} />
               </motion.div>
             )}
-            <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.3em', marginTop: '2rem' }}>
+            <p style={{ fontSize: 'clamp(0.6rem, 2vw, 0.75rem)', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.3em', marginTop: '1rem' }}>
               DOCUMENTO ENCRIPTADO Y VALIDADO POR VERÓNICA SANTILLANA • {new Date().toLocaleDateString()}
             </p>
           </motion.div>
