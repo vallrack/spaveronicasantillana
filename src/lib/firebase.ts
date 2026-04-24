@@ -15,7 +15,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase only if config is available
-let app;
+let app: any;
 let auth: any;
 let db: any;
 let storage: any;
