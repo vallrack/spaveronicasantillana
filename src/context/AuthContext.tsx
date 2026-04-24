@@ -4,6 +4,8 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { 
   onAuthStateChanged, 
   signInWithPopup, 
+  signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider, 
   signOut, 
   User 
@@ -35,6 +37,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Handle redirect results if any
+    getRedirectResult(auth).catch((error) => {
+      console.error("Redirect login error:", error);
+    });
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
       
@@ -86,8 +93,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
+    // Force account selection to avoid automatic login with wrong account
+    provider.setCustomParameters({ prompt: 'select_account' });
+    
     try {
-      await signInWithPopup(auth, provider);
+      // Detect if it's a mobile device or a tablet
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      
+      if (isMobile) {
+        console.log("Mobile detected, using signInWithRedirect");
+        await signInWithRedirect(auth, provider);
+      } else {
+        console.log("Desktop detected, using signInWithPopup");
+        await signInWithPopup(auth, provider);
+      }
     } catch (error) {
       console.error("Error signing in with Google", error);
     }
